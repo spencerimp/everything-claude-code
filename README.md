@@ -339,6 +339,14 @@ everything-claude-code/
 |-- mcp-configs/      # MCP server configurations
 |   |-- mcp-servers.json    # GitHub, Supabase, Vercel, Railway, etc.
 |
+|-- lib/              # Shared libraries and adaptor scripts
+|   |-- common.sh             # Shared helpers (rule merging, language listing)
+|   |-- adaptor-copilot.sh    # Generate .github/copilot-instructions.md from Claude rules
+|   |-- adaptor-gemini.sh     # Generate .github/gemini-instructions.md from Claude rules
+|
+|-- export.sh         # Save a project's Claude configs as a reusable preset
+|-- presets/           # Saved presets (created by export.sh)
+|
 |-- marketplace.json  # Self-hosted marketplace config (for /plugin marketplace add)
 ```
 
@@ -644,6 +652,40 @@ Not sure where to start? Use this quick reference:
 /e2e                                          → e2e-runner: critical user flow tests
 /test-coverage                                → verify 80%+ coverage
 ```
+
+### Export & Presets
+
+Save a project's Claude configs as a reusable preset that you can share or apply to other projects:
+
+```bash
+# Export configs from the current directory
+./export.sh my-preset
+
+# Export configs from another project
+./export.sh my-preset --from /path/to/project
+```
+
+This copies `CLAUDE.md`, `.claude/commands/*.md`, `.claude/settings.json`, and `.claude/mcp.json` into `presets/<name>/`.
+
+### Adaptors (Copilot & Gemini)
+
+Generate instruction files for GitHub Copilot or Gemini Code Assist from your Claude rules:
+
+```bash
+# Generate .github/copilot-instructions.md
+./lib/adaptor-copilot.sh typescript
+
+# Generate .github/gemini-instructions.md with multiple languages
+./lib/adaptor-gemini.sh python golang
+
+# Output to a specific directory
+./lib/adaptor-copilot.sh --out /path/to/project typescript python
+
+# List available languages
+./lib/adaptor-copilot.sh
+```
+
+The adaptors merge `rules/common/*.md` with language-specific rules into a single instruction file that Copilot or Gemini can use.
 
 ---
 
