@@ -655,7 +655,16 @@ Not sure where to start? Use this quick reference:
 
 ### Export & Presets
 
-Save a project's Claude configs as a reusable preset that you can share or apply to other projects:
+A **preset** is a snapshot of a project's Claude Code configuration — everything Claude needs to understand your project's conventions, tools, and workflows. Presets live in `presets/<name>/` and contain:
+
+| Source file | Preset file | What it captures |
+|-------------|-------------|------------------|
+| `./CLAUDE.md` | `CLAUDE.md` | Project instructions, coding standards, architecture notes |
+| `./.claude/commands/*.md` | `commands/` | Custom slash commands |
+| `./.claude/settings.json` | `settings.json` | Model preferences, permissions, disabled MCPs |
+| `./.claude/mcp.json` | `mcp.json` | MCP server configurations |
+
+Use `export.sh` to create a preset from any project:
 
 ```bash
 # Export configs from the current directory
@@ -665,7 +674,7 @@ Save a project's Claude configs as a reusable preset that you can share or apply
 ./export.sh my-preset --from /path/to/project
 ```
 
-This copies `CLAUDE.md`, `.claude/commands/*.md`, `.claude/settings.json`, and `.claude/mcp.json` into `presets/<name>/`.
+You can then share presets with teammates, version them in git, or copy them into new projects as a starting point.
 
 ### Adaptors (Copilot & Gemini)
 
